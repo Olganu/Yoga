@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', function () {
-// tab
+    // tab
     'use strict';
     let tab = document.querySelectorAll('.info-header-tab'),
         info = document.querySelector('.info-header'),
@@ -15,22 +15,22 @@ window.addEventListener('DOMContentLoaded', function () {
     hideTabContent(1);
 
     function showTabContent(b) {
-        if(tabContent[b].classList.contains('hide')) {
+        if (tabContent[b].classList.contains('hide')) {
             tabContent[b].classList.remove('hide');
             tabContent[b].classList.add('show');
         }
     }
 
-    info.addEventListener('click', function(event) {
+    info.addEventListener('click', function (event) {
         let target = event.target;
-        if(target && target.classList.contains('info-header-tab')) {
-          for(let i = 0; i < tab.length; i++)  {
-            if(target == tab[i]) {
-                hideTabContent(0);
-                showTabContent(i);
-                break;
+        if (target && target.classList.contains('info-header-tab')) {
+            for (let i = 0; i < tab.length; i++) {
+                if (target == tab[i]) {
+                    hideTabContent(0);
+                    showTabContent(i);
+                    break;
+                }
             }
-          }
         }
     });
 
@@ -40,45 +40,45 @@ window.addEventListener('DOMContentLoaded', function () {
 
     function getTimeRemaining(endtime) {
         let t = Date.parse(endtime) - Date.parse(new Date()),
-            seconds = Math.floor((t/1000) % 60),
-            minutes = Math.floor((t/1000/60) % 60),
-            hours = Math.floor((t/(1000*60*60)));
-           // hours = Math.floor((t/(1000*60*60) % 24));
-            //days = Math.floor(t/(1000*60*60*24));
-         return {
-            'total' : t,
-            'hours' : hours,
-            'minutes' : minutes,
-            'seconds' : seconds
-         };   
+            seconds = Math.floor((t / 1000) % 60),
+            minutes = Math.floor((t / 1000 / 60) % 60),
+            hours = Math.floor((t / (1000 * 60 * 60)));
+        // hours = Math.floor((t/(1000*60*60) % 24));
+        //days = Math.floor(t/(1000*60*60*24));
+        return {
+            'total': t,
+            'hours': hours,
+            'minutes': minutes,
+            'seconds': seconds
+        };
     }
 
 
     function setClock(id, endtime) {
         let timer = document.getElementById(id),
-        hours = timer.querySelector('.hours'),
-        minutes = timer.querySelector('.minutes'),
-        seconds = timer.querySelector('.seconds'),
-        timeInterval = setInterval(updaneClock, 1000);
+            hours = timer.querySelector('.hours'),
+            minutes = timer.querySelector('.minutes'),
+            seconds = timer.querySelector('.seconds'),
+            timeInterval = setInterval(updaneClock, 1000);
 
-       updaneClock();   // убираем мигание верстки  
+        updaneClock();   // убираем мигание верстки  
 
         function updaneClock() {
             let t = getTimeRemaining(endtime);
 
-            
-    function getZero(num) {
-        if(num <= 9) {
-            return '0' + num;
-        } else {
-            return num;
-        }
-    }
-            hours.textContent =getZero(t.hours);
-            minutes.textContent =getZero(t.minutes);
-            seconds.textContent =getZero(t.seconds);
 
-            if(t.total <= 0) {
+            function getZero(num) {
+                if (num <= 9) {
+                    return '0' + num;
+                } else {
+                    return num;
+                }
+            }
+            hours.textContent = getZero(t.hours);
+            minutes.textContent = getZero(t.minutes);
+            seconds.textContent = getZero(t.seconds);
+
+            if (t.total <= 0) {
                 clearInterval(timeInterval);
                 hours.textContent = '00';
                 minutes.textContent = '00';
@@ -88,4 +88,22 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     setClock('timer', deadline);
+
+    //modal
+
+    let more = document.querySelector('.more'),
+        overlay = document.querySelector('.overlay'),
+        close = document.querySelector('.popup-close');
+
+    more.addEventListener('click', function () {
+        overlay.style.display = 'block';
+        this.classList.add('more-splash');
+        document.body.style.overflow = 'hidden';
+    });
+    close.addEventListener('click', function () {
+        overlay.style.display = 'none';
+        more.classList.remove('more-splash');
+        document.body.style.overflow = '';
+    });
+
 });
